@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية - ستنا للصيانة</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="logo">ستنا للصيانة</h1>
+            <div class="user-info">
+                <span>مرحبًا، {{ username }}</span>
+                <a href="/logout" class="btn btn-logout">تسجيل الخروج</a>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <section class="form-section">
+                <h2>إضافة طلب صيانة جديد</h2>
+                <form method="POST" action="/save" class="maintenance-form">
+                    <div class="form-group">
+                        <label for="customer_name">اسم الزبون</label>
+                        <input type="text" id="customer_name" name="customer_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issue_type">نوع العطل</label>
+                        <input type="text" id="issue_type" name="issue_type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">سعر الصيانة</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </form>
+            </section>
+
+            <section class="table-section">
+                <h2>سجل طلبات الصيانة</h2>
+                {% if records %}
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>اسم الزبون</th>
+                                <th>نوع العطل</th>
+                                <th>سعر الصيانة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record['id'] }}</td>
+                                <td>{{ record['customer_name'] }}</td>
+                                <td>{{ record['issue_type'] }}</td>
+                                <td>{{ record['price'] }} جنيه</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="no-data">لا توجد بيانات محفوظة حتى الآن</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>
